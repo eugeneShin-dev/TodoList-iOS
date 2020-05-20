@@ -16,7 +16,7 @@ struct Todo: Codable, Equatable {
     var detail: String // 관련 내용
     var isToday: Bool // 오늘 해야하는지
     
-    // 뮤테이팅 : 이 메서드를 호출하면 프로퍼티의 값을 바꾼다
+    // 뮤테이팅 : 이 메서드를 호출하면 프로퍼티의 값을 바꾼다  
     mutating func update(isDone: Bool, detail: String, isToday: Bool) {
         // [x]TODO: update 로직 추가
         self.isDone = isDone
