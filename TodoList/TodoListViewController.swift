@@ -56,16 +56,17 @@ extension TodoListViewController {
 extension TodoListViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // TODO: 섹션 몇개
-        return 0
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // TODO: 섹션별 아이템 몇개
-        return 0
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // TODO: 커스텀 셀
+        // 커스텀 셀을 dequeue시켜서 가져온다
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListCell", for: indexPath) as? TodoListCell else {
             return UICollectionViewCell()
         }
@@ -99,20 +100,22 @@ extension TodoListViewController: UICollectionViewDataSource {
 extension TodoListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // TODO: 사이즈 계산하기
-        return CGSize.zero
+        let width: CGFloat = collectionView.bounds.width
+        let height: CGFloat = 50
+        return CGSize(width: width, height: height)
     }
 }
 
 class TodoListCell: UICollectionViewCell {
     
-    @IBOutlet weak var checkButton: UIButton!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var strikeThroughView: UIView!
+    @IBOutlet weak var checkButton: UIButton! // 체크버튼
+    @IBOutlet weak var descriptionLabel: UILabel! // 해야할 일 레이블
+    @IBOutlet weak var deleteButton: UIButton! // 삭제 버튼
+    @IBOutlet weak var strikeThroughView: UIView! // 높이가 1짜리인 뷰를 의미 => 체크 버튼 누르면 등장 (그냥 250만큼 차지하게 된다)
     
     @IBOutlet weak var strikeThroughWidth: NSLayoutConstraint!
     
-    var doneButtonTapHandler: ((Bool) -> Void)?
+    var doneButtonTapHandler: ((Bool) -> Void)? // 체크 버튼이 눌러졌을 때에 대한 클로져
     var deleteButtonTapHandler: (() -> Void)?
     
     override func awakeFromNib() {
@@ -134,10 +137,11 @@ class TodoListCell: UICollectionViewCell {
         showStrikeThrough(todo.isDone)
     }
     
+    // 완료되었을 때 strikeThrough를 보여줄지 안 보여줄지 결정!
     private func showStrikeThrough(_ show: Bool) {
-        if show {
+        if show { // 보여줘야 하면 레이블과 같은 너비로 만들어 준다 (할 일이 완료되었을 때)
             strikeThroughWidth.constant = descriptionLabel.bounds.width
-        } else {
+        } else { // 보여주지 말아야할 때는 너비를 0으로 한다 (아직 할 일이 완료되지 않았을 때)
             strikeThroughWidth.constant = 0
         }
     }
@@ -147,6 +151,8 @@ class TodoListCell: UICollectionViewCell {
         
     }
     
+    
+    // 여기서는 클로져를 수행시키기만 하고 클로져의 구현은 바깥에서 해 준다
     @IBAction func checkButtonTapped(_ sender: Any) {
         // TODO: checkButton 처리
         

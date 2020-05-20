@@ -12,18 +12,24 @@ import UIKit
 // TODO: Codable과 Equatable 추가
 struct Todo: Codable, Equatable {
     let id: Int
-    var isDone: Bool
-    var detail: String
-    var isToday: Bool
+    var isDone: Bool // 완료 되었는지
+    var detail: String // 관련 내용
+    var isToday: Bool // 오늘 해야하는지
     
+    // 뮤테이팅 : 이 메서드를 호출하면 프로퍼티의 값을 바꾼다  
     mutating func update(isDone: Bool, detail: String, isToday: Bool) {
-        // TODO: update 로직 추가
+        // [x]TODO: update 로직 추가
+        self.isDone = isDone
+        self.detail = detail
+        self.isToday = isToday
         
     }
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        // TODO: 동등 조건 추가
-        return true
+    // == : 두 객체가 같은지 (Todo 간의 동등 비교)
+    // == : TODO 객체에 대해 업데이트를 했을 때 (완료했을 때) 여러 개의 TODO중에 어떤 걸 업데이트 시킬 거냐
+    // Equatble이라는 프로토콜을 상속했기 때문에 사용할 수 있다
+    static func == (lhs: Self, rhs: Self) -> Bool { // lhs => left hand side라는 뜻
+        // [x]TODO: 동등 조건 추가
+        return lhs.id == rhs.id
     }
 }
 
